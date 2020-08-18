@@ -1,7 +1,6 @@
 #tutorial link: https://www.youtube.com/watch?v=GnKHVXv_rlQ
-from collections import deque
-import math
 
+import math
 class MaxHeap:
     def __init__(self, items = []):
         self.heap = []
@@ -72,9 +71,6 @@ class MaxHeap:
         if power >= len(self.heap):
             return levels
         return self.get_levels(levels + 1, int(math.pow(2, levels + 1) - 1))
-
-
-
 
 
 
