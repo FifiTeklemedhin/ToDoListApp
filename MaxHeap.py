@@ -14,8 +14,8 @@ class MaxHeap:
         self.__heapifyUp(len(self.heap) -1)
 
     def peek(self):
-        if self.heap[1]:
-            return self.heap[1][1]
+        if self.heap[0]:
+            return self.heap[0][0]
         return False
 
     def pop(self):
@@ -27,14 +27,14 @@ class MaxHeap:
             self.__heapifyDown(0)
 
         elif len(self.heap) == 2:
-            root = self.heap.pop()
-
+            self.heap.remove(self.heap[0])
+            root = self.heap[0]
         return root
 
     # private methods (denoted with "__" at the beginning)
 
     def __swap(self, i, j):
-        self.heap[i][0], self.heap[j][0] = self.heap[j][0], self.heap[i][0]
+        self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
 
     def __heapifyUp(self, index):
         parent = index // 2
@@ -42,15 +42,13 @@ class MaxHeap:
         left = int(index / 2)
         if index <= 1:
             return
-        print("comparing {} and {}".format(self.heap[right][0], self.heap[index][0]))
+
         if index % 2 == 0 and self.heap[right][0] < self.heap[index][0]:
-            print("\t{} is less than {}".format(self.heap[right][0], self.heap[index][0]))
             self.__swap(index, right)
             self.__heapifyUp(right)
 
 
         elif index % 2 == 1 and self.heap[left][0] > self.heap[index][0]:
-            print("\t{} is less than {}".format(self.heap[left][0], self.heap[index][0]))
             self.__swap(index, left)
             self.__heapifyUp(left)
 
@@ -74,12 +72,14 @@ class MaxHeap:
 
     def to_str(self):
         num_levels = self.get_levels()
-        print("num levels: {}".format(num_levels))
+
         for i in range(1, num_levels + 1):
             level_str = ""
             for j in self.heap[int(math.pow(2, i-1)) - 1: int(math.pow(2, i)) - 1]:
-                level_str += str(j[0]) + " "
+                level_str += str(j[1]) + " "
             print(level_str)
+
+        print("\n")
 
 
     def get_levels(self, levels=0, power=0):
@@ -90,7 +90,7 @@ class MaxHeap:
 
 
 heap = MaxHeap([[100, "homework"]])
-heap.push([36, "grocieries"])
+heap.push([36, "groceries"])
 heap.push([19, "programming"])
 heap.push([17, "workout"])
 heap.push([25, "breakfast"])
@@ -99,13 +99,21 @@ heap.push([2, "paint nails"])
 heap.push([7, "email"])
 heap.push([1, "clubs"])
 
-heap.to_str()
-print(heap.heap)
 
-heap.pop()
 heap.to_str()
-print(heap.heap)
+heap.pop()
+heap.pop()
+heap.pop()
+heap.pop()
+heap.pop()
+heap.pop()
+heap.pop()
+heap.pop()
+heap.pop()
+heap.pop()
+heap.pop()
+heap.pop()
 
-heap.pop()
+
 heap.to_str()
-print(heap.heap)
+print("root: " + str(heap.peek()))
