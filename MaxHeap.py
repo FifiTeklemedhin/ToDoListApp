@@ -11,7 +11,7 @@ class MaxHeap:
 
     def push(self, data):
         self.heap.append(data)
-        self.__heapifyUp(len(self.heap) - 1)
+        self.__heapifyUp(len(self.heap) -1)
 
     def peek(self):
         if self.heap[1]:
@@ -38,9 +38,23 @@ class MaxHeap:
 
     def __heapifyUp(self, index):
         parent = index // 2
+        right = int(index / 2 -1)
+        left = int(index / 2)
         if index <= 1:
             return
-        elif self.heap[index][0] > self.heap[parent][0]:
+        print("comparing {} and {}".format(self.heap[right][0], self.heap[index][0]))
+        if index % 2 == 0 and self.heap[right][0] < self.heap[index][0]:
+            print("\t{} is less than {}".format(self.heap[right][0], self.heap[index][0]))
+            self.__swap(index, right)
+            self.__heapifyUp(right)
+
+
+        elif index % 2 == 1 and self.heap[left][0] > self.heap[index][0]:
+            print("\t{} is less than {}".format(self.heap[left][0], self.heap[index][0]))
+            self.__swap(index, left)
+            self.__heapifyUp(left)
+
+        if self.heap[index][0] > self.heap[parent][0]:
             self.__swap(index, parent)
             self.__heapifyUp(parent)
 
@@ -61,7 +75,7 @@ class MaxHeap:
     def to_str(self):
         num_levels = self.get_levels()
         print("num levels: {}".format(num_levels))
-        for i in range(1, num_levels):
+        for i in range(1, num_levels + 1):
             level_str = ""
             for j in self.heap[int(math.pow(2, i-1)) - 1: int(math.pow(2, i)) - 1]:
                 level_str += str(j[0]) + " "
@@ -85,5 +99,13 @@ heap.push([2, "paint nails"])
 heap.push([7, "email"])
 heap.push([1, "clubs"])
 
+heap.to_str()
+print(heap.heap)
+
+heap.pop()
+heap.to_str()
+print(heap.heap)
+
+heap.pop()
 heap.to_str()
 print(heap.heap)
