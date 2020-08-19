@@ -6,7 +6,6 @@ class LinkedList:
 
     #accessor and mutators for self.head_node
     def set_head_node(self, node):
-        print("new head: node with data {} and next_node {}".format(node.get_data(), node.get_next_node()))
         self.head_node = node
 
     def get_head_node(self):
@@ -28,24 +27,23 @@ class LinkedList:
     # finds the node at a given index
     def find(self, ind : int):
         current_node = self.get_head_node()
-        count = 0
+        count = 1
 
-        while count != ind:
+        while count != ind and count < self.size:
+            print("current node : {}".format(current_node))
             current_node = current_node.get_next_node()
             count += 1
 
         return current_node
 
     #inserts a Node object at a specific index in the linked list
-    def insert_node(self, pos = -1, inserting : Node = Node()):
+    def insert_node(self, pos, inserting: Node):
         node_before = self.get_head_node()
 
-        if node_before is None:
+        if node_before.get_data() is None:
             self.set_head_node(inserting)
             return
-        if pos == -1:
-            self.find(self.size - 1).set_next_node(inserting)
-            return
+
         if pos == 0:
             inserting.set_next_node(self.get_head_node())
             self.set_head_node(inserting)
@@ -61,23 +59,9 @@ class LinkedList:
         inserting.set_next_node(node_before.get_next_node())
         node_before.set_next_node(inserting)
         self.size += 1
-
     #inserts a Node object at a specific index by using a value and using it to create a Node
     def insert_val(self, pos, val: float):
-        self.insert_node(pos, Node(val))
-
-    def replace_node(self, pos, new_node):
-        count = 0
-        current = self.get_head_node()
-
-        while count != pos:
-            if current.get_next_node() is None:
-                print("index {} does not exist.. could not replace with {}".format(pos, new_node.get_data()))
-                break
-            else:
-                current = current.get_next_node()
-        current = new_node
-
+        self.insert_node(pos,Node(val, None))
 
     #removes a Node object at a specific index from the linked list
     def delete(self, pos):
