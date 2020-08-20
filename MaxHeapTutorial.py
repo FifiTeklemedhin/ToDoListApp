@@ -84,7 +84,7 @@ heap.push(2)
 heap.push(7)
 heap.push(1)
 
-heap.to_str()
+print(heap.heap)
 
 
 
