@@ -13,6 +13,8 @@ class Node:
     def set_data(self, data):
         self.data = data
     def set_next_node(self, next_node):
+        if isinstance(next_node, type(self)) == False:
+            return TypeError("trying to this node's next node to another type")
         self.next_node = next_node
 
     def __repr__(self):
