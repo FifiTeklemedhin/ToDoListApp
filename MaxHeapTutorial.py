@@ -4,13 +4,14 @@ import math
 from LinkedList import LinkedList
 from Node import Node
 class MaxHeap:
-    def __init__(self, head : []):
-        self.heap = LinkedList(Node(head))
-        self.size = 1
+    def __init__(self):
+        self.heap = LinkedList()
+        self.size = 0
 
     def push(self, data):
         self.heap.insert_val(self.size - 1, data)
-        self.__heapifyUp(self.size - 1)
+        self.__heapifyUp(self.size)
+        self.__heapifyDown(0)
         self.size += 1
 
     def peek(self):
@@ -40,21 +41,16 @@ class MaxHeap:
         self.heap.find(j).set_data(i_holder)
 
     def __heapifyUp(self, index):
-        parent = index // 2
-        right = int(index / 2 -1)
-        left = int(index / 2)
+        print("index: {} {}".format(index,self.heap))
+        parent = (index // 2)
+        right = int(index / 2 - 1)
+        left = int(index - 1)
         if index <= 1:
             return
 
-        if index % 2 == 0 and self.heap.find(right).get_data()[0] < self.heap.find(index).get_data()[0]:
-            self.__swap(index, right)
-            self.__heapifyUp(right)
-
-        elif index % 2 == 1 and self.heap.find(left).get_data()[0] > self.heap.find(index).get_data()[0]:
-            self.__swap(index, left)
-            self.__heapifyUp(left)
-
-        elif self.heap.find(index).get_data()[0] > self.heap.find(parent).get_data()[0]:
+        #print("parent: comparing {} with {}".format(self.heap.find(index).get_data()[0], self.heap.find(parent).get_data()[0]))
+        if self.heap.find(index).get_data()[0] > self.heap.find(parent).get_data()[0]:
+            #print("{} is greater than {}".format(self.heap.find(index).get_data()[0], self.heap.find(parent).get_data()[0]))
             self.__swap(index, parent)
             self.__heapifyUp(parent)
 
@@ -63,6 +59,11 @@ class MaxHeap:
         left = index * 2
         right = index * 2 + 1
         largest = index
+
+        if index % 2 == 0 and self.heap.find(right).get_data()[0] < self.heap.find(left).get_data()[0]:
+            print("right: {} is less than {}".format(self.heap.find(right).get_data()[0],
+                                                 self.heap.find(largest).get_data()[0]))
+            self.__swap(right, left)
 
         if self.size > left and self.heap.find(largest).get_data()[0] < self.heap.find(left).get_data()[0]:
             largest = left
@@ -93,7 +94,8 @@ class MaxHeap:
 
 
 
-heap = MaxHeap([100, "homework"])
+heap = MaxHeap()
+heap.push([100, "homework"])
 heap.push([36, "groceries"])
 heap.push([19, "programming"])
 heap.push([17, "workout"])
@@ -102,8 +104,6 @@ heap.push([3, "cooking"])
 heap.push([2, "paint nails"])
 heap.push([7, "email"])
 heap.push([1, "clubs"])
-
-print(heap.heap)
 
 
 
