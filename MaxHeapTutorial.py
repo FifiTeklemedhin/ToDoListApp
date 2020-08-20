@@ -37,7 +37,7 @@ class MaxHeap:
 
     def __heapifyUp(self, index):
         parent = index // 2
-        if index <= 1:
+        if index < 1:
             return
         elif self.heap[index] > self.heap[parent]:
             self.__swap(index, parent)
