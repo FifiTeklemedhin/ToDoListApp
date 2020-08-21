@@ -27,9 +27,10 @@ class MaxHeap:
             return
 
         root = self.heap.get_head_node()
-        self.heap.delete(0)
-
-        self.__heapify_down()
+        self.__swap(0, self.size)
+        self.heap.delete(self.size)
+        self.size -= 1
+        self.__heapify_down(0)
 
         return root
     # Private methods
@@ -42,7 +43,7 @@ class MaxHeap:
         if index <= 1:
             return
 
-        # Finds out the rank of the parent and the index
+        # Finds the rank of the parent and the index
         index_priority = self.heap.find(index).get_data()[0]
         parent_priority = self.heap.find(parent).get_data()[0]
 
@@ -54,7 +55,32 @@ class MaxHeap:
 
 
     def __heapify_down(self, index):
-        pass
+        left = index * 2 + 1
+        right = index * 2 + 2
+        largest = index
+        largest_child = index
+
+        if index >= self.size:
+            return
+
+        if right <= self.size - 1:
+            if self.heap.find(left).get_data()[0] < self.heap.find(right).get_data()[0]:
+                largest_child = right
+        else:
+            largest_child = left
+
+        # Finds the rank of the largest child and the index
+        index_priority = self.heap.find(index).get_data()[0]
+        largest_child_priority = self.heap.find(largest_child).get_data()[0]
+
+        print("comparing {} and {}".format(index_priority, largest_child_priority))
+        if largest_child_priority > index_priority:
+            print("index before: {}, child before: {}".format(self.heap.find(index), self.heap.find(largest_child)))
+            self.__swap(largest_child, index)
+            print("index after: {}, child after: {}\n".format(self.heap.find(index), self.heap.find(largest_child)))
+            self.__heapify_down(largest_child)
+
+
     def __swap(self, pos_1, pos_2):
         # Swaps the data of two indexes, so that the node higher up is the one with a higher priority.
         node_1 = self.heap.find(pos_1)
@@ -120,5 +146,8 @@ heap.push([12, "studing"])
 heap.push([8, "night routine"])
 heap.push([15, "speech"])
 heap.push([0, "sleep"])
-print(heap.heap)
 print(heap)
+
+heap.pop()
+print(heap)
+print(heap.heap)

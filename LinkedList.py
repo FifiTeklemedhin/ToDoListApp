@@ -28,12 +28,15 @@ class LinkedList:
     def find(self, ind : int):
         current_node = self.get_head_node()
         count = 1
-
+        if ind == 0:
+            return self.get_head_node()
         while count != ind:
             if count < self.size:
                 print("out of bounds")
                 return
             #print("current node : {}".format(current_node))
+            if current_node.get_next_node() is None:
+                return current_node
             current_node = current_node.get_next_node()
             count += 1
 
@@ -43,7 +46,7 @@ class LinkedList:
     def insert_node(self, pos, inserting: Node):
         node_before = self.get_head_node()
 
-        if node_before.get_data() is None:
+        if node_before is None or node_before.get_data() is None:
             self.set_head_node(inserting)
             return
 
@@ -68,6 +71,8 @@ class LinkedList:
 
     #removes a Node object at a specific index from the linked list
     def delete(self, pos):
+         '''
+
          if pos == 0:
              self.set_head_node(self.get_head_node().get_next_node())
              return
@@ -78,6 +83,17 @@ class LinkedList:
 
          self.set_head_node(node_before.get_next_node())
          self.size -= 1
+         '''
+         if pos == 0:
+            self.set_head_node(self.get_head_node.get_next_node())
+            return
+         current_node = self.get_head_node()
+         for i in range(pos - 1):
+             if current_node.get_next_node().get_next_node() is None:
+                break
+             current_node = current_node.get_next_node()
+         print("node before {}".format(current_node))
+         current_node.set_next_node(None)
 
     #toString() method that prints out the linked list from head to tail
     def __repr__(self):
