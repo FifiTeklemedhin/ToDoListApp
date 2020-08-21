@@ -1,91 +1,103 @@
-#tutorial link: https://www.youtube.com/watch?v=GnKHVXv_rlQ
-from collections import deque
 import math
-
+from LinkedList import LinkedList
+from Node import Node
 class MaxHeap:
-    def __init__(self, items = []):
-        self.heap = []
-        for i in items:
-            self.heap.append(i)
-            self.__heapifyUp(len(self.heap) - 1)
+    def __init__(self):
+        self.heap = LinkedList()
+        self.size = 0
 
     def push(self, data):
-        self.heap.append(data)
-        self.__heapifyUp(len(self.heap) - 1)
+        self.heap.insert_val(self.size, data)
+        self.heapifyUp(self.size)
+        self.size += 1
 
     def peek(self):
-        if self.heap[1]:
-            return self.heap[1]
+        if self.heap.find(0):
+            return self.heap.find(0).get_data()[0]
         return False
 
     def pop(self):
         root = False
 
-        if len(self.heap) > 2:
-            self.__swap(0, len(self.heap) - 1)
+        if self.size > 2:
+            self.__swap(0, self.size - 1)
             root = self.heap.pop()
-            self.__heapifyDown(0)
+            self.heapifyDown(0)
 
-        elif len(self.heap) == 2:
-            root = self.heap.pop()
-
+        elif self.size == 2:
+            self.heap.delete(0)
+            root = self.heap.find(0)
         return root
 
     # private methods (denoted with "__" at the beginning)
 
     def __swap(self, i, j):
-        self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
+        i_holder = self.heap.find(i).get_data()
 
-    def __heapifyUp(self, index):
+        self.heap.find(i).set_data(self.heap.find(j).get_data())
+        self.heap.find(j).set_data(i_holder)
+
+    def heapifyUp(self, index):
         parent = index // 2
+        if index % 2 == 1:
+            parent -= 1
+        #print("parent: {}".format(parent))
         if index <= 1:
             return
-        elif self.heap[index] > self.heap[parent]:
+        if self.heap.find(index).get_data()[0] > self.heap.find(parent).get_data()[0]:
             self.__swap(index, parent)
-            self.__heapifyUp(parent)
+            self.heapifyUp(parent)
 
-    def __heapifyDown(self, index):
+    def heapifyDown(self, index):
         left = index * 2
         right = index * 2 + 1
         largest = index
 
-        if len(self.heap) > left and self.heap[largest] < self.heap[left]:
+        if self.heap.size > left and self.heap.find(largest).get_data()[0] < self.heap.find(left).get_data()[0]:
             largest = left
-        if len(self.heap) > right and self.heap[largest] < self.heap[right]:
+        if self.heap.size > right and self.heap.find(largest).get_data()[0] < self.heap.find(right).get_data()[0]:
             largest = right
 
         if largest != index:
             self.__swap(index, largest)
-            self.__heapifyDown(largest)
+            self.heapifyDown(largest)
 
     def to_str(self):
         num_levels = self.get_levels()
-        print("num levels: {}".format(num_levels))
         for i in range(1, num_levels + 1):
             level_str = ""
-            for j in self.heap[int(math.pow(2, i-1)) -1: int(math.pow(2, i))-1]:
-                level_str += str(j) + " "
+            for j in range(int(math.pow(2, i-1)) - 1, int(math.pow(2, i)) - 1):
+                level_str += str(self.heap.find(j).get_data()[0]) + " "
             print(level_str)
 
+        print("\n")
 
-    def get_levels(self, levels=0, power=0):
-        if power >= len(self.heap):
+
+    def get_levels(self, levels =0, power = 0):
+        if power >= self.size:
             return levels
         return self.get_levels(levels + 1, int(math.pow(2, levels + 1) - 1))
 
 
 
+heap = MaxHeap()
+heap.push([100, "homework"])
+heap.push([36, "groceries"])
+heap.push([19, "programming"])
+heap.push([17, "workout"])
+heap.push([25, "breakfast"])
+heap.push([3, "cooking"])
+heap.push([2, "paint nails"])
+heap.push([7, "email"])
+heap.push([1, "clubs"])
 
-
-
-heap = MaxHeap([100])
-heap.push(36)
-heap.push(19)
-heap.push(17)
-heap.push(25)
-heap.push(3)
-heap.push(2)
-heap.push(7)
-heap.push(1)
-
+heap.heapifyDown(0)
 heap.to_str()
+print(heap.heap)
+
+
+
+
+
+
+
