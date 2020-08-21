@@ -76,7 +76,7 @@ class MaxHeap:
         for i in range(1, num_levels + 1):
             level_str = ""
             for j in self.heap[int(math.pow(2, i-1)) - 1: int(math.pow(2, i)) - 1]:
-                level_str += str(j[1]) + " "
+                level_str += str(j[0]) + " "
             print(level_str)
 
         print("\n")
@@ -89,6 +89,7 @@ class MaxHeap:
 
 
 
+'''
 heap = MaxHeap([[100, "homework"]])
 heap.push([36, "groceries"])
 heap.push([19, "programming"])
@@ -117,3 +118,16 @@ heap.pop()
 
 heap.to_str()
 print("root: " + str(heap.peek()))
+'''
+heap = MaxHeap([[30, "homework"]])
+heap.push([100, "video games"])
+heap.push([35, "eating"])
+heap.push([19, "programming"])
+heap.push([17, "workout"])
+heap.push([25, "breakfast"])
+heap.push([3, "cooking"])
+heap.push([2, "paint nails"])
+heap.push([7, "email"])
+heap.push([1, "clubs"])
+print(heap.heap)
+heap.to_str()

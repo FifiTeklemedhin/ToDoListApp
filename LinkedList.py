@@ -29,8 +29,11 @@ class LinkedList:
         current_node = self.get_head_node()
         count = 1
 
-        while count != ind and count < self.size:
-            print("current node : {}".format(current_node))
+        while count != ind:
+            if count < self.size:
+                print("out of bounds")
+                return
+            #print("current node : {}".format(current_node))
             current_node = current_node.get_next_node()
             count += 1
 
