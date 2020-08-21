@@ -100,7 +100,7 @@ class MaxHeap:
         for i in range(1, levels):
             level_str += "\n"
             for j in range(int(math.pow(2, i - 1)), int(math.pow(2, i))):
-                if self.heap.find(j) is None:
+                if j == self.size + 1:
                     break
                 level_str += str(self.heap.find(j).get_data()[0]) + " "
         level_str += "\n"
@@ -119,15 +119,6 @@ class MaxHeap:
         levels += 1
         return self.num_levels(levels)
 
-
-
-
-    #pop
-    #peek
-    #__repr__
-
-    #heapify down
-    #swap
 
 
 heap = MaxHeap()
