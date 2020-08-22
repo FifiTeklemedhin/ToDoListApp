@@ -1,100 +1,119 @@
-import math
-from LinkedList import LinkedList
-from Node import Node
+# modified from https://gist.github.com/pavlin-policar/63e237b5e0b9c8dc1b47b0e4f780a88f
 class MaxHeap:
-    def __init__(self):
-        self.heap = LinkedList()
-        self.size = 0
+    def __init__(self, collection=None):
+        self._heap = []
 
-    def push(self, data):
-        self.heap.insert_val(self.size, data)
-        self.heapifyUp(self.size)
-        self.size += 1
+        if collection is not None:
+            for el in collection:
+                self.push(el)
 
-    def peek(self):
-        if self.heap.find(0):
-            return self.heap.find(0).get_data()[0]
-        return False
+    def push(self, value):
+        self._heap.append(value)
+        _sift_up(self._heap, len(self) - 1)
 
     def pop(self):
-        root = False
+        _swap(self._heap, len(self) - 1, 0)
+        el = self._heap.pop()
+        _sift_down(self._heap, 0)
+        return el
 
-        if self.size > 2:
-            self.__swap(0, self.size - 1)
-            root = self.heap.pop()
-            self.heapifyDown(0)
+    def __len__(self):
+        return len(self._heap)
 
-        elif self.size == 2:
-            self.heap.delete(0)
-            root = self.heap.find(0)
-        return root
-
-    # private methods (denoted with "__" at the beginning)
-
-    def __swap(self, i, j):
-        i_holder = self.heap.find(i).get_data()
-
-        self.heap.find(i).set_data(self.heap.find(j).get_data())
-        self.heap.find(j).set_data(i_holder)
-
-    def heapifyUp(self, index):
-        parent = index // 2
-        if index % 2 == 1:
-            parent -= 1
-        #print("parent: {}".format(parent))
-        if index <= 1:
-            return
-        if self.heap.find(index).get_data()[0] > self.heap.find(parent).get_data()[0]:
-            self.__swap(index, parent)
-            self.heapifyUp(parent)
-
-    def heapifyDown(self, index):
-        left = index * 2
-        right = index * 2 + 1
-        largest = index
-
-        if self.heap.size > left and self.heap.find(largest).get_data()[0] < self.heap.find(left).get_data()[0]:
-            largest = left
-        if self.heap.size > right and self.heap.find(largest).get_data()[0] < self.heap.find(right).get_data()[0]:
-            largest = right
-
-        if largest != index:
-            self.__swap(index, largest)
-            self.heapifyDown(largest)
-
-    def to_str(self):
-        num_levels = self.get_levels()
-        for i in range(1, num_levels + 1):
-            level_str = ""
-            for j in range(int(math.pow(2, i-1)) - 1, int(math.pow(2, i)) - 1):
-                level_str += str(self.heap.find(j).get_data()[0]) + " "
-            print(level_str)
-
-        print("\n")
+    def print(self, idx=1, indent=0):
+        print("\t" * indent, f"{self._heap[idx - 1][1]}")
+        left, right = 2 * idx, 2 * idx + 1
+        if left <= len(self):
+            self.print(left, indent=indent + 1)
+        if right <= len(self):
+            self.print(right, indent=indent + 1)
 
 
-    def get_levels(self, levels =0, power = 0):
-        if power >= self.size:
-            return levels
-        return self.get_levels(levels + 1, int(math.pow(2, levels + 1) - 1))
+def _swap(L, i, j):
+    L[i], L[j] = L[j], L[i]
+
+
+def _sift_up(heap, idx):
+    parent_idx = (idx - 1) // 2
+    # If we've hit the root node, there's nothing left to do
+    if parent_idx < 0:
+        return
+
+    # If the current node is larger than the parent node, swap them
+    if heap[idx][0] > heap[parent_idx][0]:
+        _swap(heap, idx, parent_idx)
+        _sift_up(heap, parent_idx)
+
+
+def _sift_down(heap, idx):
+    child_idx = 2 * idx + 1
+    # If we've hit the end of the heap, there's nothing left to do
+    if child_idx >= len(heap):
+        return
+
+    # If the node has a both children, swap with the larger one
+    if child_idx + 1 < len(heap) and heap[child_idx][0] < heap[child_idx + 1][0]:
+        child_idx += 1
+
+    # If the child node is smaller than the current node, swap them
+    if heap[child_idx][0] > heap[idx][0]:
+        _swap(heap, child_idx, idx)
+        _sift_down(heap, child_idx)
+
+
+def heap_sort(collection):
+    heap = MaxHeap(collection)
+    sorted_arr = []
+    while len(heap) > 0:
+        sorted_arr.append(heap.pop())
+    return sorted_arr
+
 
 
 
 heap = MaxHeap()
-heap.push([100, "homework"])
-heap.push([36, "groceries"])
-heap.push([19, "programming"])
+
+heap.push([1, "homework"])
+heap.push([3, "video games"])
+heap.push([2, "eating"])
+heap.push([5, "programming"])
 heap.push([17, "workout"])
 heap.push([25, "breakfast"])
-heap.push([3, "cooking"])
-heap.push([2, "paint nails"])
+heap.push([8, "cooking"])
+heap.push([90, "paint nails"])
 heap.push([7, "email"])
-heap.push([1, "clubs"])
 
-heap.heapifyDown(0)
-heap.to_str()
-print(heap.heap)
+heap.push([-1, "clubs"])
+heap.push([4, "reading"])
+heap.push([12, "studing"])
+heap.push([30, "night routine"])
+heap.push([15, "speech"])
+heap.push([0, "sleep"])
+heap.push([32, "homework"])
+heap.push([41, "video games"])
+heap.push([35, "eating"])
+heap.push([66, "programming"])
+heap.push([81, "workout"])
+heap.push([-5, "breakfast"])
+heap.push([21, "cooking"])
+heap.push([71, "paint nails"])
+heap.push([11, "email"])
+heap.push([10, "clubs"])
+heap.push([23, "reading"])
+heap.push([923, "studing"])
+heap.push([150, "night routine"])
+heap.push([-70, "speech"])
+heap.push([75, "sleep"])
 
+
+heap.print()
+heap.pop()
+
+heap.print()
+heap.pop()
+
+heap.print()
+heap.pop()
 
 
 

@@ -26,7 +26,7 @@ class MaxHeap:
         if self.size <= 0:
             return
 
-        root = self.heap.get_head_node()
+        root = self.peek()
         self.__swap(0, self.size)
         self.heap.delete(self.size)
         self.size -= 1
@@ -51,7 +51,7 @@ class MaxHeap:
         # highest priority is on top. It then continues to heapify from that highest location
         if parent_priority < index_priority:
             self.__swap(parent, index)
-            self.__heapify_up(index)
+            self.__heapify_up(parent)
 
 
     def __heapify_down(self, index):
@@ -73,11 +73,11 @@ class MaxHeap:
         index_priority = self.heap.find(index).get_data()[0]
         largest_child_priority = self.heap.find(largest_child).get_data()[0]
 
-        print("comparing {} and {}".format(index_priority, largest_child_priority))
+        #print("comparing {} and {}".format(index_priority, largest_child_priority))
         if largest_child_priority > index_priority:
-            print("index before: {}, child before: {}".format(self.heap.find(index), self.heap.find(largest_child)))
+            #print("index before: {}, child before: {}".format(self.heap.find(index), self.heap.find(largest_child)))
             self.__swap(largest_child, index)
-            print("index after: {}, child after: {}\n".format(self.heap.find(index), self.heap.find(largest_child)))
+            #print("index after: {}, child after: {}\n".format(self.heap.find(index), self.heap.find(largest_child)))
             self.__heapify_down(largest_child)
 
 
@@ -122,23 +122,49 @@ class MaxHeap:
 
 
 heap = MaxHeap()
-heap.push([30, "homework"])
-heap.push([100, "video games"])
-heap.push([35, "eating"])
-heap.push([19, "programming"])
+heap.push([1, "homework"])
+heap.push([3, "video games"])
+heap.push([2, "eating"])
+heap.push([5, "programming"])
 heap.push([17, "workout"])
 heap.push([25, "breakfast"])
-heap.push([3, "cooking"])
-heap.push([2, "paint nails"])
+heap.push([8, "cooking"])
+heap.push([90, "paint nails"])
 heap.push([7, "email"])
-heap.push([1, "clubs"])
+
+heap.push([-1, "clubs"])
 heap.push([4, "reading"])
 heap.push([12, "studing"])
-heap.push([8, "night routine"])
+heap.push([30, "night routine"])
 heap.push([15, "speech"])
 heap.push([0, "sleep"])
-print(heap)
+heap.push([32, "homework"])
+heap.push([41, "video games"])
+heap.push([35, "eating"])
+heap.push([66, "programming"])
+heap.push([81, "workout"])
+heap.push([-5, "breakfast"])
+heap.push([21, "cooking"])
+heap.push([71, "paint nails"])
+heap.push([11, "email"])
+heap.push([10, "clubs"])
+heap.push([23, "reading"])
+heap.push([923, "studing"])
+heap.push([150, "night routine"])
+heap.push([-70, "speech"])
+heap.push([75, "sleep"])
 
-heap.pop()
+
 print(heap)
-print(heap.heap)
+print(heap.pop())
+
+
+print(heap)
+print(heap.pop())
+
+print(heap)
+print(heap.pop())
+
+
+print(heap)
+print(heap.pop())

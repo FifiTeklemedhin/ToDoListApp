@@ -71,19 +71,6 @@ class LinkedList:
 
     #removes a Node object at a specific index from the linked list
     def delete(self, pos):
-         '''
-
-         if pos == 0:
-             self.set_head_node(self.get_head_node().get_next_node())
-             return
-         node_before = self.get_head_node()
-
-         for i in range(pos):
-             node_before = node_before.get_next_node()
-
-         self.set_head_node(node_before.get_next_node())
-         self.size -= 1
-         '''
          if pos == 0:
             self.set_head_node(self.get_head_node.get_next_node())
             return
@@ -92,7 +79,7 @@ class LinkedList:
              if current_node.get_next_node().get_next_node() is None:
                 break
              current_node = current_node.get_next_node()
-         print("node before {}".format(current_node))
+         #print("node before {}".format(current_node))
          current_node.set_next_node(None)
 
     #toString() method that prints out the linked list from head to tail
